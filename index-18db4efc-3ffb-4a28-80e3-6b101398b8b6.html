@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debt Calculator - Doutre Financial Coaching | Ogden Realtor</title>
+    <meta name="description" content="Free Credit Card Payoff Calculator - Licensed Realtor in Ogden, UT">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container { 
+            max-width: 1200px; 
+            margin: 0 auto; 
+            background: white; 
+            border-radius: 20px; 
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        .header { 
+            background: linear-gradient(135deg, #000 0%, #1a1a1a 100%); 
+            color: white; 
+            padding: 40px 20px; 
+            text-align: center;
+            border-radius: 20px 20px 0 0;
+        }
+        .logo {
+            max-width: 200px;
+            height: auto;
+            margin: 0 auto 20px;
+            display: block;
+        }
+        .header h1 { font-size: 2em; margin-bottom: 10px; }
+        .header p { font-size: 1.1em; opacity: 0.95; }
+        .warning { 
+            background: #ff6b6b; 
+            color: white; 
+            padding: 15px; 
+            text-align: center; 
+            font-weight: bold; 
+        }
+        .inputs { padding: 40px 20px; background: #f8f9fa; }
+        .input-group { margin-bottom: 30px; }
+        .input-group label { 
+            display: block; 
+            font-size: 1.1em; 
+            font-weight: 600; 
+            margin-bottom: 10px; 
+            color: #333; 
+        }
+        .input-wrapper { 
+            display: flex; 
+            align-items: center; 
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        input[type="range"] { 
+            flex: 1; 
+            min-width: 200px;
+            height: 8px; 
+            border-radius: 5px; 
+            background: #ddd; 
+            outline: none; 
+            cursor: pointer;
+        }
+        input[type="range"]::-webkit-slider-thumb { 
+            -webkit-appearance: none; 
+            width: 25px; 
+            height: 25px; 
+            border-radius: 50%; 
+            background: #667eea; 
+            cursor: pointer; 
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        input[type="range"]::-moz-range-thumb { 
+            width: 25px; 
+            height: 25px; 
+            border-radius: 50%; 
+            background: #667eea; 
+            cursor: pointer; 
+            border: none; 
+        }
+        .value { 
+            font-size: 1.3em; 
+            font-weight: bold; 
+            color: #667eea; 
+            min-width: 120px; 
+            text-align: right; 
+        }
+        .comparison { 
+            display: grid; 
+            grid-template-columns: 1fr 1fr; 
+            gap: 20px; 
+            padding: 40px 20px; 
+        }
+        .card { 
+            border-radius: 15px; 
+            padding: 25px; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1); 
+        }
+        .card-danger { background: #fff5f5; border: 2px solid #ff6b6b; }
+        .card-success { background: #f0fff4; border: 2px solid #51cf66; }
+        .card-title { 
+            font-size: 1.4em; 
+            font-weight: bold; 
+            margin-bottom: 20px; 
+        }
+        .card-danger .card-title { color: #c92a2a; }
+        .card-success .card-title { color: #2b8a3e; }
+        .metric { 
+            margin-bottom: 15px; 
+            padding: 15px; 
+            background: white; 
+            border-radius: 10px; 
+        }
+        .metric-label { font-size: 0.9em; color: #666; margin-bottom: 5px; }
+        .metric-value { font-size: 1.6em; font-weight: bold; }
+        .card-danger .metric-value { color: #c92a2a; }
+        .card-success .metric-value { color: #2b8a3e; }
+        .savings { 
+            background: linear-gradient(135deg, #ffd93d 0%, #ff6b6b 100%); 
+            padding: 40px 20px; 
+            color: white; 
+        }
+        .savings h2 { 
+            font-size: 2em; 
+            text-align: center; 
+            margin-bottom: 30px; 
+        }
+        .savings-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
+            gap: 20px; 
+            margin-bottom: 30px; 
+        }
+        .savings-card { 
+            background: rgba(255,255,255,0.2); 
+            padding: 25px; 
+            border-radius: 15px; 
+            text-align: center; 
+        }
+        .big-number { font-size: 2.5em; font-weight: bold; }
+        .cta { 
+            background: linear-gradient(135deg, #000 0%, #1a1a1a 100%); 
+            padding: 50px 20px; 
+            text-align: center; 
+            color: white;
+            border-radius: 0 0 20px 20px;
+        }
+        .cta-logo {
+            max-width: 180px;
+            height: auto;
+            margin: 0 auto 25px;
+            display: block;
+        }
+        .cta h2 { font-size: 2.2em; margin-bottom: 20px; }
+        .cta p { font-size: 1.2em; margin-bottom: 30px; opacity: 0.95; line-height: 1.6; }
+        .cta-button { 
+            display: inline-block; 
+            padding: 18px 40px; 
+            background: white; 
+            color: #000; 
+            text-decoration: none; 
+            border-radius: 50px; 
+            font-size: 1.2em; 
+            font-weight: bold; 
+            transition: transform 0.3s;
+            margin-bottom: 20px;
+        }
+        .cta-button:hover { transform: translateY(-3px); }
+        .phone { 
+            margin-top: 25px;
+            font-size: 1.4em;
+            font-weight: bold;
+        }
+        .phone a {
+            color: white;
+            text-decoration: none;
+            border-bottom: 2px solid white;
+            transition: opacity 0.3s;
+        }
+        .phone a:hover { opacity: 0.8; }
+        .location {
+            margin-top: 15px;
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+        @media (max-width: 768px) {
+            .comparison { grid-template-columns: 1fr; }
+            .header h1 { font-size: 1.5em; }
+            .input-wrapper { flex-direction: column; align-items: stretch; }
+            .value { text-align: center; }
+            .logo, .cta-logo { max-width: 150px; }
+            .phone { font-size: 1.2em; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <img src="https://res.cloudinary.com/duhygs5ck/image/upload/v1762182098/e1cc6588-0d90-4e8b-b863-3485dd9646cf/chat___67b8f226-951a-4427-8074-729bff896610.png" alt="Doutre Financial Coaching Logo" class="logo">
+            <h1>💳 Credit Card Minimum Payment Trap Calculator</h1>
+            <p>Discover How Much Money You're Losing to Interest</p>
+        </div>
+
+        <div class="warning">
+            ⚠️ WARNING: Minimum payments can cost you THOUSANDS in extra interest!
+        </div>
+
+        <div class="inputs">
+            <div class="input-group">
+                <label>Credit Card Balance</label>
+                <div class="input-wrapper">
+                    <input type="range" id="balance" min="1000" max="50000" step="500" value="10000">
+                    <span class="value" id="balanceVal">$10,000</span>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label>Annual Interest Rate (APR)</label>
+                <div class="input-wrapper">
+                    <input type="range" id="apr" min="10" max="30" step="0.5" value="18">
+                    <span class="value" id="aprVal">18.0%</span>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label>Your Monthly Payment</label>
+                <div class="input-wrapper">
+                    <input type="range" id="payment" min="50" max="2000" step="25" value="300">
+                    <span class="value" id="paymentVal">$300</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="comparison">
+            <div class="card card-danger">
+                <div class="card-title">😱 Minimum Payment (2%)</div>
+                <div class="metric">
+                    <div class="metric-label">Monthly Payment</div>
+                    <div class="metric-value" id="minPay">$200</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">Time to Pay Off</div>
+                    <div class="metric-value" id="minTime">30 years</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">Total Paid</div>
+                    <div class="metric-value" id="minTotal">$35,000</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">Interest Paid</div>
+                    <div class="metric-value" id="minInt">$25,000</div>
+                </div>
+            </div>
+
+            <div class="card card-success">
+                <div class="card-title">🎉 Your Payment Plan</div>
+                <div class="metric">
+                    <div class="metric-label">Monthly Payment</div>
+                    <div class="metric-value" id="highPay">$300</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">Time to Pay Off</div>
+                    <div class="metric-value" id="highTime">3 years 8 months</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">Total Paid</div>
+                    <div class="metric-value" id="highTotal">$13,200</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">Interest Paid</div>
+                    <div class="metric-value" id="highInt">$3,200</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="savings">
+            <h2>🎯 Your Potential Savings</h2>
+            <div class="savings-grid">
+                <div class="savings-card">
+                    <h3>Money Saved</h3>
+                    <div class="big-number" id="saved">$21,800</div>
+                </div>
+                <div class="savings-card">
+                    <h3>Time Saved</h3>
+                    <div class="big-number" id="timeSaved">26 years</div>
+                </div>
+                <div class="savings-card">
+                    <h3>Interest Avoided</h3>
+                    <div class="big-number" id="intSaved">$21,800</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="cta">
+            <img src="https://res.cloudinary.com/duhygs5ck/image/upload/v1762182098/e1cc6588-0d90-4e8b-b863-3485dd9646cf/chat___67b8f226-951a-4427-8074-729bff896610.png" alt="Doutre Financial Coaching Logo" class="cta-logo">
+            <h2>Ready to Take Control of Your Financial Future?</h2>
+            <p>At Doutre Financial Coaching, we help you master your finances and achieve your dreams—whether that's buying your first home, eliminating debt, or building lasting wealth.</p>
+            <p>As a licensed realtor and financial literacy coach in Ogden, UT, I understand the connection between financial health and homeownership success.</p>
+            <a href="https://calendly.com/doutrefinancialcoaching/new-meeting" target="_blank" class="cta-button">Schedule Your Free Consultation</a>
+            <div class="phone">
+                📞 <a href="tel:+16024782726">Call or Text: (602) 478-2726</a>
+            </div>
+            <div class="location">
+                🏡 Licensed Realtor serving Ogden, UT and surrounding areas
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function updateCalc() {
+            var balance = parseFloat(document.getElementById('balance').value);
+            var apr = parseFloat(document.getElementById('apr').value);
+            var payment = parseFloat(document.getElementById('payment').value);
+
+            document.getElementById('balanceVal').textContent = '$' + balance.toLocaleString('en-US');
+            document.getElementById('aprVal').textContent = apr.toFixed(1) + '%';
+            document.getElementById('paymentVal').textContent = '$' + payment.toLocaleString('en-US');
+
+            var minPayment = Math.max(balance * 0.02, 25);
+            var minResults = calculatePayoff(balance, apr, minPayment);
+            var highResults = calculatePayoff(balance, apr, payment);
+
+            document.getElementById('minPay').textContent = '$' + Math.round(minPayment).toLocaleString('en-US');
+            document.getElementById('minTime').textContent = formatTime(minResults.months);
+            document.getElementById('minTotal').textContent = '$' + Math.round(minResults.totalPaid).toLocaleString('en-US');
+            document.getElementById('minInt').textContent = '$' + Math.round(minResults.totalInterest).toLocaleString('en-US');
+
+            document.getElementById('highPay').textContent = '$' + payment.toLocaleString('en-US');
+            document.getElementById('highTime').textContent = formatTime(highResults.months);
+            document.getElementById('highTotal').textContent = '$' + Math.round(highResults.totalPaid).toLocaleString('en-US');
+            document.getElementById('highInt').textContent = '$' + Math.round(highResults.totalInterest).toLocaleString('en-US');
+
+            var moneySaved = minResults.totalPaid - highResults.totalPaid;
+            var timeSaved = minResults.months - highResults.months;
+            var interestSaved = minResults.totalInterest - highResults.totalInterest;
+
+            document.getElementById('saved').textContent = '$' + Math.round(moneySaved).toLocaleString('en-US');
+            document.getElementById('timeSaved').textContent = formatTime(timeSaved);
+            document.getElementById('intSaved').textContent = '$' + Math.round(interestSaved).toLocaleString('en-US');
+        }
+
+        function calculatePayoff(principal, annualRate, monthlyPayment) {
+            var monthlyRate = annualRate / 100 / 12;
+            var balance = principal;
+            var totalPaid = 0;
+            var totalInterest = 0;
+            var months = 0;
+            var maxMonths = 600;
+
+            if (monthlyPayment <= balance * monthlyRate) {
+                return { months: 999, totalPaid: 999999, totalInterest: 999999 };
+            }
+
+            while (balance > 0.01 && months < maxMonths) {
+                var interestCharge = balance * monthlyRate;
+                var principalPayment = monthlyPayment - interestCharge;
+
+                totalInterest += interestCharge;
+                balance -= principalPayment;
+                months++;
+
+                if (balance <= 0) {
+                    totalPaid += monthlyPayment + balance;
+                    balance = 0;
+                } else {
+                    totalPaid += monthlyPayment;
+                }
+            }
+
+            return {
+                months: months,
+                totalPaid: totalPaid,
+                totalInterest: totalInterest
+            };
+        }
+
+        function formatTime(months) {
+            if (months >= 999) return "Never";
+            if (months === 0) return "0 months";
+
+            var years = Math.floor(months / 12);
+            var remainingMonths = Math.round(months % 12);
+
+            if (years === 0) {
+                return remainingMonths + ' month' + (remainingMonths !== 1 ? 's' : '');
+            } else if (remainingMonths === 0) {
+                return years + ' year' + (years !== 1 ? 's' : '');
+            } else {
+                return years + ' year' + (years !== 1 ? 's' : '') + ' ' + 
+                       remainingMonths + ' month' + (remainingMonths !== 1 ? 's' : '');
+            }
+        }
+
+        document.getElementById('balance').addEventListener('input', updateCalc);
+        document.getElementById('apr').addEventListener('input', updateCalc);
+        document.getElementById('payment').addEventListener('input', updateCalc);
+
+        window.onload = updateCalc;
+    </script>
+</body>
+</html>
